@@ -4,18 +4,31 @@ using System.Collections.Generic;
 
 namespace FantasyFootball.Players 
 {
-    [Route("api/[controller]")]
+    
     public class PlayersController : Controller
     {
         [HttpGet]
-        public List<Player> GetAllPlayers()
+        [Route("api/[controller]/GetAllPlayers")]
+        public Player[] GetAllPlayers()
         {
             var PlayersList = new List<Player>();
 
-            PlayersList.Add(new Player { Name = "Mesut Ozil", Team = "Arsenal"});
-            PlayersList.Add(new Player { Name = "Sergio Aguero", Team = "Manchester City"});
+            PlayersList.Add(new Player { Name = "Mesut Ozil", Team = "Arsenal", 
+            Value = 4.5, Position = "MID"});
+            PlayersList.Add(new Player { Name = "Sergio Aguero", 
+            Team = "Manchester City", Value = 12, Position = "ATT"});
             
-            return PlayersList;
+            return PlayersList.ToArray();
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/GetPlayerByTeam")]
+        public Player[] GetPlayerByTeam()
+        {
+            var PlayersList = new List<Player>();
+            PlayersList.Add(new Player { Name = "Alexis Sanchez", Team = "Arsenal"});
+
+            return PlayersList.ToArray();
         }
     }
 }
