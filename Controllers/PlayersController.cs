@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FantasyFootballApi.Player;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FantasyFootball.Players 
 {
@@ -9,7 +10,7 @@ namespace FantasyFootball.Players
     {
         [HttpGet]
         [Route("api/[controller]/GetAllPlayers")]
-        public Player[] GetAllPlayers()
+        public List<Player> GetAllPlayers()
         {
             var PlayersList = new List<Player>();
 
@@ -18,17 +19,20 @@ namespace FantasyFootball.Players
             PlayersList.Add(new Player { Name = "Sergio Aguero", 
             Team = "Manchester City", Value = 12, Position = "ATT"});
             
-            return PlayersList.ToArray();
+            return PlayersList;
         }
 
         [HttpGet]
         [Route("api/[controller]/GetPlayerByTeam")]
-        public Player[] GetPlayerByTeam()
+        public List<Player> GetPlayerByTeam(string team)
         {
-            var PlayersList = new List<Player>();
-            PlayersList.Add(new Player { Name = "Alexis Sanchez", Team = "Arsenal"});
+            var PlayersList = GetAllPlayers()
+                            .Where(p => p.Team == team)
+                            .ToList();
+            
+            //PlayersList.Add(new Player { Name = "Alexis Sanchez", Team = "Arsenal"});
 
-            return PlayersList.ToArray();
+            return PlayersList;
         }
     }
 }
